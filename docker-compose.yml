@@ -1,0 +1,22 @@
+# Ранер — копія кіту курсу paypilot-l06-eval (лише стандартна бібліотека Python).
+# Стенд PayPilot має бути запущений на localhost:8000.
+services:
+  eval:
+    image: python:3.12-slim
+    working_dir: /evals
+    entrypoint: ["python", "cli.py"]
+    command: []
+    environment:
+      SET: ${SET:-l06_security}
+      GATE: ${GATE:-}
+      CASE: ${CASE:-}
+      SUMMARIZE_AFTER: ${SUMMARIZE_AFTER:-}
+      REPEAT: ${REPEAT:-}
+      TRACES: ${TRACES:-}
+      PYTHONDONTWRITEBYTECODE: "1"
+      SERVICE_URL: ${EVAL_STAND_URL:-http://host.docker.internal:8000}
+    volumes:
+      - ./evals:/evals
+      - ./reports:/evals/reports
+    extra_hosts:
+      - host.docker.internal:host-gateway
